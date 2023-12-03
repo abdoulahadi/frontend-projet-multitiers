@@ -1,0 +1,103 @@
+/* articles.css */
+
+.articles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Réglage de la largeur minimale et maximale des articles */
+    gap: 20px; /* Espacement entre les articles */
+  }
+  
+  .article-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .card-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .card-price {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Ajustez la largeur maximale en fonction de vos besoins */
+    max-width: 100%; /* Par exemple, utilisez la largeur maximale disponible */
+    margin: 0 auto;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .article-card {
+      width: calc(50% - 10px); /* Deux cartes par ligne pour les écrans moyens */
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .article-card {
+      width: calc(100% - 10px); /* Une carte par ligne pour les petits écrans */
+    }
+  }
+  
+  .article-card {
+    width: calc(25% - 10px); /* Quatre cartes par ligne par défaut avec un espacement de 10px */
+    margin-bottom: 20px;
+    /* Autres styles pour la carte... */
+  }
+
+  .articles h2{
+    color: #888;
+  }
+  
+  .articles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.article-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.card-price {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Ajoutez d'autres styles selon vos besoins spécifiques */
+
+  

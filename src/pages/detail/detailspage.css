@@ -1,0 +1,34 @@
+/* detailsPage.css */
+.main-image {
+    max-width: 100%; /* Pour s'adapter à la largeur maximale du conteneur */
+    max-height: 400px; /* Taille maximale de hauteur pour l'image principale */
+    overflow: hidden; /* Pour masquer toute partie de l'image dépassant de la zone réservée */
+  }
+/* Style pour l'image principale */
+.main-image img {
+    /* max-width: 100%; */
+    width: 80%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Style pour les images secondaires */
+  .secondary-images img {
+    width: 150px; /* Redimensionnez les images secondaires selon vos besoins */
+    height: auto;
+  }
+  
+  /* Style pour l'image active des images secondaires */
+  .secondary-images img.active {
+    border: 2px solid blue; /* Par exemple, une bordure pour l'image active */
+  }
+
+  .item-details{
+    color: #888;
+  }
+
+  .item-details div p{
+    color: rgb(13, 115, 48);
+    font-weight: bold;
+  }
+  

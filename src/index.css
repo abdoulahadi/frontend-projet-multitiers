@@ -1,13 +1,447 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+html, body, #root, #defaultLayout, #guestLayout {
+    min-height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    color: #888;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #212121;
+    background-color: #f6f6f6;
+}
+
+input {
+    outline: 0;
+    background: #ffffff;
+    width: 100%;
+    border: 2px solid #e6e6e6;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+input:focus,.form-select:focus {
+    border-color: rgb(10,107,49);
+}
+
+
+.btn,
+.btn-add,
+.btn-edit,
+.btn-delete {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: rgb(10,107,49);
+    border: 0;
+    text-decoration: none;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 16px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-add,
+.btn-edit,
+.btn-delete{
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.btn-add {
+    background-color: #00a762;
+}
+.btn-delete {
+    background-color: #b72424;
+}
+
+/* .btn-logout {
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    color: #212121;
+    transition: all 0.3s;
+    border-radius: 6px;
+}
+.btn-logout:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+} */
+
+.btn:hover,
+.btn:active,
+.btn:focus ,.btn-edit:hover{
+    background-color: rgb(132, 181, 39);
+    color: white;
+    transition: 0.4s;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+table > thead > tr > th {
+    text-align: left;
+    padding: 0.5rem 0.5rem;
+    background-color: #efefef;
+}
+
+table > tbody > tr > td {
+    padding: 0.5rem 0.5rem;
+    border-bottom: 1px solid #efefef;
+    white-space: nowrap;
+}
+
+.card {
+    background-color: #FFF;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.alert {
+    padding: 1rem;
+    background-color: #ff4040;
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.notification {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 100;
+    padding: 1rem 1.5rem;
+    background-color: #00a762;
+    color: white;
+    border-radius: 0.5rem;
+}
+
+/* Login/Signup forms*/
+
+.login-signup-form {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(10,107,49,0.4); */
+}
+
+.login-signup-form .form {
+    width: 360px;
+    position: relative;
+    z-index: 1;
+    /* background: #FFFFFF; */
+    background-color: rgba(255, 255, 255, 0.8);
+    max-width: 360px;
+    padding: 34px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.login-signup-form .title {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(10,107,49);
+}
+
+.login-signup-form .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 16px;
+    text-align: center;
+}
+
+.login-signup-form .form .message a {
+    color: rgb(10,107,49);
+    text-decoration: none;
+}
+
+/* Login/Signup form */
+
+
+#defaultLayout {
+    display: flex;
+}
+
+#defaultLayout aside {
+    width: 240px;
+    height: 100vh;
+    background-color: rgb(10,107,49);
+    padding: 1rem
+}
+
+#defaultLayout aside > a {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+#defaultLayout aside > a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#defaultLayout .content {
+    flex: 1;
+}
+
+#defaultLayout header {
+    height: 80px;
+    padding: 2rem 3rem;
+    background-color: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#defaultLayout main {
+    padding: 2rem;
+}
+
+.animated {
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*----------------------------------Headers--------------------------------
+/* Styles for the header */
+
+.container-fluid {
+    padding: 0;
+    color: #fff;
+  }
+  
+  .navbar {
+    background-color: #f8f9fa;
+    padding: 1rem;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color: #fff;
+    margin-right: 2rem;
+    text-decoration: none;
+  }
+
+  .navbar-nav {
+    margin-right: auto;
+  }
+  
+  .nav-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+  }
+  .nav-link:hover,
+  .nav-link:focus,
+  .navbar-brand:hover,
+  .navbar-brand:focus{
+    color:rgb(10,107,49);
+}
+  .nav-item {
+    margin-right: 1rem;
+  }
+  
+  .dropdown-menu {
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0;
+  }
+  
+  .dropdown-item {
+    color: #000;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+  }
+  
+  .btn-logout {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn-logout:hover {
+    background-color: #c82333;
+    color: #fff;
+  }
+
+  /**--------------------------PrésentationText */
+  .presentation-text {
+    margin-bottom: 20px;
+  }
+  
+  .presentation-text__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .presentation-text__content {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  
+  /**------------------------------Accueil */
+
+  .accueil{
+    margin-top: 2%;
+  }
+  .stat{
+    background-color:rgb(10,107,49);
+    background-color:rgb(132, 181, 39);
+     
+}
+
+/**-------------------------------DocumentSearch */
+.document-search {
+    border-radius: 5px;
+  }
+  
+
+  .custom-input-row {
+    display: flex;
+    align-items: stretch;
+  }
+  
+  .custom-input-row input,
+  .custom-input-row button {
+    height: 100%;
+  }
+  @media (max-width: 767px) {
+    .document-search .row {
+      flex-direction: column;
+    }
+  }
+  /**---------------------DocumentItem */
+
+  .card {
+    background-color: white;
+    color: rgb(132, 181, 39);
+      --bs-card-spacer-y: 0;
+      --bs-card-spacer-x: 0;
+      border: 0px;
+  }
+  
+  .card-title {
+    color: black;
+  }
+  
+  .card-text {
+    color: black;
+  }
+  /** */
+
+    /*** */
+
+      
+      .profile-image {
+        width: 100%;
+        max-width: 70vh;
+        height: auto;
+      }
+      
+
+      /** */
+      #titre_blog_document{
+        background-color: #0a6b31;
+        padding:1% 0;
+        width:100%;
+        color: white;
+        font-size: x-large;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /**Pagination */
+
+    .page-link,.page-link:hover{
+      color: rgb(132, 181, 39);
+    }
+    .active .page-link{
+      color: #FFFFFF;
+      background: #00a762;
+      border: 1px solid #00a762;
+    }
+    .active:hover{
+      color: #FFFFFF;
+    }
+
+
+/** */
+.form-control{
+  color:#000;
+}
+
+
+/* CategoriesComponent.css */
+.modal-open {
+  position: relative;
+}
+
+.modal-open::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
