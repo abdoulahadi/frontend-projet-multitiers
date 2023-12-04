@@ -25,7 +25,15 @@ class CommandeService{
           throw new Error('Erreur lors de la récupération des commandes');
         }
       }
-    
+      async getCommandeByClient(clientId) {
+        try {
+          const response = await this.commande.get(`${this.api}/byclientId/${clientId}`);
+          return response.data;
+        } catch (error) {
+          console.error('Erreur lors de la récupération des commandes:', error);
+          throw new Error('Erreur lors de la récupération des commandes');
+        }
+      }
       async createCommande(commandeData) {
         try {
           const response = await this.commande.post(this.api, commandeData);

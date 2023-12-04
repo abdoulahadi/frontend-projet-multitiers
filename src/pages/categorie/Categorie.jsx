@@ -13,7 +13,7 @@ const Categorie = () => {
   const fetchProductByCategorie = async () => {
     try {
       //On passe la categorie....
-      const data = await ProductsService.getProducts();
+      const data = await ProductsService.getProductByCommande(categorie);
       setProductByCommande(data);
     } catch (error) {
       console.error('Erreur lors de la récupération des catégories:', error);
@@ -22,7 +22,7 @@ const Categorie = () => {
 
   useEffect(()=>{
     fetchProductByCategorie()
-  },[])
+  },[categorie])
 
     const categoryItems = [
     {
@@ -60,7 +60,7 @@ const Categorie = () => {
     <>
     <Parallax title={categorie}/>
     <div className="container mt-4">
-        <ArticleItem items={categoryItems} horizontale={true} />
+        <ArticleItem items={productByCommande} horizontale={true} />
     </div>
     </>
   );

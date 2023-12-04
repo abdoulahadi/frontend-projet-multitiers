@@ -3,44 +3,37 @@ import Profile from '../../components/profile/Profile';
 import Parallax from '../../components/parallax/Parallax';
 import ClientsService from '../../services/Clients.service';
 import CommandeService from '../../services/Commande.service';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 const ClientProfile = () => {
   const [client, setClient] = useState([]);
   const [Commandes, setCommandes] = useState([]);
 
-  const fetchClient = async () => {
-    try {
-      const data = await ClientsService.getClient();
-      setClient(data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération du Client:', error);
-    }
-  };
-
+  const {user} = useStateContext()
+  
   const fetchCommandeByClient = async () => {
     try {
-      const data = await CommandeService.getCommande()
+      const data = await CommandeService.getCommandeByClient(client.id)
+      console.log(data)
       setCommandes(data);
     } catch (error) {
       console.error('Erreur lors de la récupération des commandes:', error);
     }
   };
 
-  useEffect(()=>{
-    fetchClient()
-    fetchCommandeByClient()
-  },[])
-  const clientDetails = {
-    idClient: 1,
-    nom: 'Dupont',
-    prenom: 'Jean',
-    adresse: '123 Rue de la République',
-    telephone: '0123456789',
-    email: 'jean.dupont@example.com',
-    idUser: 'jd123'
+  const fetchClientByUserId = async () => {
+    try {
+      const data = await ClientsService.getClientByUserId(user.id);
+      setClient(data[0])
+    } catch (error) {
+      console.error('Erreur lors de la récupération du Product:', error);
+    }
   };
 
-  
+  useEffect(()=>{
+    fetchClientByUserId()
+    fetchCommandeByClient()
+  },[client.id])
   const clientOrders = [
     { id: 1, date: '2023-11-15', totalAmount: 150 },
     { id: 2, date: '2023-11-18', totalAmount: 200 },
@@ -51,7 +44,7 @@ const ClientProfile = () => {
     <>
     <Parallax title={"Mon Espace"}/>
     <div className='container'>
-      <Profile client={clientDetails} orders={clientOrders} />
+      <Profile client={client} orders={Commandes} />
     </div>
     </>
   );

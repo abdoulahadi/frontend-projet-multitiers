@@ -43,7 +43,7 @@ class CategoriesService {
 
   async updateCategory(categoryId, newName) {
     try {
-      const response = await this.client.put(`${this.api}/${categoryId}`, { nomCategorie: newName });
+      const response = await this.client.put(`${this.api}/${categoryId}`, { id:categoryId, nomCategorie: newName });
       if (response.status === 200) {
         return true;
       } else {
@@ -58,7 +58,7 @@ class CategoriesService {
   async deleteCategory(categoryId) {
     try {
       const response = await this.client.delete(`${this.api}/${categoryId}`);
-      if (response.status === 200) {
+      if (response.status === 204) {
         return true;
       } else {
         throw new Error('Erreur lors de la suppression de la catégorie');

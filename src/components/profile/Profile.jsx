@@ -2,25 +2,29 @@ import React, { useRef } from 'react';
 import './profile.css'; // Assurez-vous d'importer le fichier CSS pour les styles
 
 const Profile = ({ client, onUpdateClient, orders }) => {
-  const { idClient, nom, prenom, adresse, telephone, email, idUser } = client;
+  const { id, prenom, nom, adresse, telephone, email, user } = client;
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+  };
   // Créez des refs pour les champs de saisie
   const nomRef = useRef(null);
   const prenomRef = useRef(null);
   const adresseRef = useRef(null);
   const telephoneRef = useRef(null);
   const emailRef = useRef(null);
-  const idUserRef = useRef(null);
-
+  const userRef = useRef(null);
+  console.log(orders)
   const handleUpdate = () => {
     const updatedClient = {
-      idClient,
-      nom: nomRef.current.value,
+      id,
+      prenom: nomRef.current.value,
       prenom: prenomRef.current.value,
-      adresse: adresseRef.current.value,
+      nom: adresseRef.current.value,
       telephone: telephoneRef.current.value,
       email: emailRef.current.value,
-      idUser: idUserRef.current.value,
+      user: userRef.current.value,
     };
     onUpdateClient(updatedClient);
   };
@@ -55,7 +59,7 @@ const Profile = ({ client, onUpdateClient, orders }) => {
               </div>
               <div className="form-group">
                 <label>ID de l'Utilisateur:</label>
-                <input type="text" className="form-control" defaultValue={idUser} ref={idUserRef} />
+                <input type="text" className="form-control" defaultValue={user} ref={userRef} />
               </div>
               <button className="btn btn-primary" onClick={handleUpdate}>
                 Mettre à jour
@@ -68,15 +72,22 @@ const Profile = ({ client, onUpdateClient, orders }) => {
           <div className="card">
             <h2 className="card-header">Liste des Commandes</h2>
             <div className="card-body">
-              <ul className="list-group">
-                {orders.map((order) => (
-                  <li key={order.id} className="list-group-item">
-                    {/* Affichage des détails de chaque commande */}
-                    {/* Remplacez par les détails de vos commandes */}
-                    {/* {order.date} - {order.totalAmount} */}
-                  </li>
-                ))}
-              </ul>
+            <table className="table">
+            <thead>
+              <tr>
+                <th>Date de commande</th>
+                <th>ID du produit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order.id}>
+                  <td>{formatDate(order.dateCommande)}</td>
+                  <td>{order.produits !== null ? order.produits.id : ""}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
             </div>
           </div>
         </div>

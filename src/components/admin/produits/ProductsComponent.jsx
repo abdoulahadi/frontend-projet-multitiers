@@ -8,8 +8,8 @@ const ProductsComponent = () => {
     nomProduit: '',
     descriptionProduit: '',
     prixProduit: '',
-    imagesProduit: [],
-    idCategorie: '',
+    imageProduit: [],
+    categories: {},
   });
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState('');
@@ -21,8 +21,8 @@ const ProductsComponent = () => {
       nomProduit: '',
       descriptionProduit: '',
       prixProduit: '',
-      imagesProduit: [],
-      idCategorie: '',
+      imageProduit: [],
+      categories: {},
     });
     setEditMode(false);
     setCurrentProductId('');
@@ -52,7 +52,7 @@ const ProductsComponent = () => {
     try {
       const newProductData = {
         ...productData,
-        imagesBase64: imageFiles.map((file) => file.base64).join("*"), 
+        imageProduit: imageFiles.map((file) => file.base64).join("*"), 
       };
       
       console.log(newProductData)
@@ -66,9 +66,10 @@ const ProductsComponent = () => {
 
   const handleUpdateProduct = async () => {
     try {
+      console.log(imageFiles)
       const updatedProductData = {
         ...productData,
-        imagesBase64: imageFiles.map((file) => file.base64).join("*"),
+        imageProduit: imageFiles.map((file) => file.base64).join("*"),
       };
       await ProductsService.updateProduct(currentProductId, updatedProductData);
       fetchProducts();
@@ -88,9 +89,10 @@ const ProductsComponent = () => {
   };
 
   const handleEditProduct = (product) => {
-    setProductData({ ...product });
+    setProductData({ ...product});
+    setImageFiles(product.imageProduit.split("*"))
     setEditMode(true);
-    setCurrentProductId(product.idProduit);
+    setCurrentProductId(product.id);
     handleShow();
   };
 
@@ -125,20 +127,30 @@ const ProductsComponent = () => {
             <th>Nom</th>
             <th>Description</th>
             <th>Prix</th>
-            <th>Image</th>
+            {/* <th>Image</th> */}
             <th>Catégorie</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.idProduit}>
-              <td>{product.idProduit}</td>
+          {products.length>0 && products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
               <td>{product.nomProduit}</td>
               <td>{product.descriptionProduit}</td>
               <td>{product.prixProduit}</td>
-              <td>{product.imageProduit}</td>
-              <td>{product.idCategorie}</td>
+              {/* <td>{product.imageProduit.split('*').length > 0 && (
+                    <div className="mb-3">
+                      <div className="d-flex flex-wrap">
+                            <img
+                              src={product.imageProduit.split('*')[0]}
+                              alt={`Uploaded ${product.nomProduit}`}
+                              style={{ maxWidth: '100px', maxHeight: '100px' }}
+                            />
+                      </div>
+                    </div>
+                  )}</td> */}
+              <td>{product.categories === null ? product.categories : product.categories.id}</td>
               <td>
                 <button
                   className="btn btn-sm btn-primary me-2"
@@ -148,7 +160,7 @@ const ProductsComponent = () => {
                 </button>
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={() => handleDeleteProduct(product.idProduit)}
+                  onClick={() => handleDeleteProduct(product.id)}
                 >
                   Supprimer
                 </button>
@@ -157,7 +169,6 @@ const ProductsComponent = () => {
           ))}
         </tbody>
       </table>
-
       {showModal && (
         <div className="modal" tabIndex="-1" style={{ display: 'block' }}>
           <div className="modal-dialog">
@@ -220,7 +231,7 @@ const ProductsComponent = () => {
                         {imageFiles.map((file, index) => (
                           <div key={index} className="m-2">
                             <img
-                              src={URL.createObjectURL(file)}
+                              src={file}
                               alt={`Uploaded ${index}`}
                               style={{ maxWidth: '100px', maxHeight: '100px' }}
                             />
@@ -235,8 +246,8 @@ const ProductsComponent = () => {
         type="text"
         className="form-control"
         id="categoryId"
-        value={productData.idCategorie}
-        onChange={(e) => setProductData({ ...productData, idCategorie: e.target.value })}
+        value={productData.categories===null ? productData.categories : productData.categories.id}
+        onChange={(e) => setProductData({ ...productData, categories: e.target.value })}
       />
     </div>
                 </form>

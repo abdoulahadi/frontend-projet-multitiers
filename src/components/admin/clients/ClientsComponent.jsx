@@ -80,7 +80,7 @@ const ClientComponent = () => {
   const handleEditClient = (client) => {
     setClientData({ ...client });
     setEditMode(true);
-    setCurrentClientId(client.idClient);
+    setCurrentClientId(client.id);
     handleShow();
   };
 
@@ -106,8 +106,8 @@ const ClientComponent = () => {
         </thead>
         <tbody>
           {clients.map((client) => (
-            <tr key={client.idClient}>
-              <td>{client.idClient}</td>
+            <tr key={client.id}>
+              <td>{client.id}</td>
               <td>{client.nom}</td>
               <td>{client.prenom}</td>
               <td>{client.adresse}</td>
@@ -123,7 +123,7 @@ const ClientComponent = () => {
                 </button>
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={() => handleDeleteClient(client.idClient)}
+                  onClick={() => handleDeleteClient(client.id)}
                 >
                   Supprimer
                 </button>

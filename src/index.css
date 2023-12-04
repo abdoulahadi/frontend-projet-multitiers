@@ -154,15 +154,24 @@ table > tbody > tr > td {
 }
 
 .login-signup-form .form {
-    width: 360px;
-    position: relative;
-    z-index: 1;
-    /* background: #FFFFFF; */
-    background-color: rgba(255, 255, 255, 0.8);
-    max-width: 360px;
-    padding: 34px;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  width: 800px;
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  padding: 34px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  grid-gap: 10px;
 }
+
+.login-signup-form .form input {
+  width: 100%; 
+  padding: 10px; 
+  box-sizing: border-box; 
+}
+
 
 .login-signup-form .title {
     font-size: 20px;

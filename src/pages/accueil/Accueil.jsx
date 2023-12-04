@@ -8,6 +8,7 @@ const Accueil = () => {
   const fetchProducts = async () => {
     try {
       const data = await ProductsService.getProducts();
+      console.log(data)
       setProducts(data);
     } catch (error) {
       console.error('Erreur lors de la récupération du Product:', error);
@@ -94,8 +95,8 @@ const Accueil = () => {
           <section className="mb-5">
             <h2 className="mb-3">Les plus vendus</h2>
             <div className="row">
-              {bestSellingItems && bestSellingItems.length > 0 ? (
-                <ArticleItem items={bestSellingItems} horizontale={true}/>
+              {products && products.length > 0 ? (
+                <ArticleItem items={products} horizontale={true}/>
               ) : (
                 <p>Pas d'articles les plus vendus pour le moment</p>
               )}
@@ -107,8 +108,8 @@ const Accueil = () => {
         <div className="col-md-4">
           <section className="bg-light">
             <h2 className="text-center mb-3">Articles récents</h2>
-            {recentItems && recentItems.length > 0 ? (
-              <ArticleItem items={recentItems}  horizontale={false}/>
+            {products && products.length > 0 ? (
+              <ArticleItem items={products}  horizontale={false}/>
             ) : (
               <p>Pas d'articles récents pour le moment</p>
             )}

@@ -5,7 +5,11 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import AuthentificationService from "../../services/Authentification.service";
 
 export default function Signup() {
-    const nomRef = useRef();
+    const usernameRef = useRef();
+    const firstNameRef = useRef();
+    const adresseRef = useRef();
+    const telRef = useRef();
+    const lastNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
@@ -22,7 +26,7 @@ export default function Signup() {
 
         const payload =
         {
-            nom: nomRef.current.value,
+            nom: usernameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
@@ -53,24 +57,53 @@ export default function Signup() {
                         ))}
                         </div>}
                     <input
-                        ref={nomRef}
+                        ref={firstNameRef}
                         type="text"
-                        placeholder="nom"
+                        placeholder="First Name"
+                        required
+                    />
+                    <input
+                        ref={lastNameRef}
+                        type="text"
+                        placeholder="Last Name"
+                        required
+                    />
+                    <input
+                        ref={adresseRef}
+                        type="text"
+                        placeholder="Adresse"
+                        required
+                    />
+                    <input
+                        ref={telRef}
+                        type="tel"
+                        placeholder="Téléphone"
+                        required
+                    />
+                    <input
+                        ref={usernameRef}
+                        type="text"
+                        placeholder="Username"
+                        required
                     />
                     <input
                         ref={emailRef}
                         type="email"
-                        placeholder="Email Address "
+                        placeholder="Email"
+                        required
+
                     />
                     <input
                         ref={passwordRef}
                         type="password"
                         placeholder="Password"
+                        required
                     />
                     <input
                         ref={passwordConfirmationRef}
                         type="password"
                         placeholder="Password Confirmation"
+                        required
                     />
                     <button className="btn btn-block">
                     {isLoading ? (

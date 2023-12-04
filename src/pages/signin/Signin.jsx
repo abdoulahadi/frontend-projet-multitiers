@@ -3,6 +3,7 @@ import logo from "../../assets/form_logo.svg";
 import { Link } from "react-router-dom";
 import AuthentificationService from "../../services/Authentification.service";
 import { useStateContext } from "../../contexts/ContextProvider";
+import UsersService from "../../services/Users.service";
 
 export default function Signin() {
     const usernameRef = useRef();
@@ -14,6 +15,14 @@ export default function Signin() {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const fetchClient = async () => {
+        try {
+          const data = await UsersService.getAccount()
+          setUser(data);
+        } catch (error) {
+          console.error('Erreur lors de la récupération du Product:', error);
+        }
+      };
     const onSubmit = (ev) => {
         setIsLoading(true);
         ev.preventDefault();
@@ -26,8 +35,8 @@ export default function Signin() {
         try {
             AuthentificationService.login(payload)
             .then(({data}) =>{
-                console.log(data)
                 setToken(data.id_token)
+                fetchClient()
             })
             .catch((error)=>{
                 console.log(error)

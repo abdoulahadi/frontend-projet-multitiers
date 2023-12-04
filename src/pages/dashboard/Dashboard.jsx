@@ -1,13 +1,60 @@
 import React from 'react';
 import { useEffect, useState } from "react";
+import ProductsService from '../../services/Products.service';
+import CommandeService from '../../services/Commande.service';
+import CategoriesService from '../../services/Categories.service';
+import ClientsService from '../../services/Clients.service';
 
 export default function Dashboard() {
-    const [commandeCount, setCommandeCount] = useState(10);
-    const [produitCount, setProduitCount] = useState(10);
-    const [clientCount, setClientCount] = useState(10);
-    const [categorieCount, setCategorieCount] = useState(10);
+    const [commandeCount, setCommandeCount] = useState(0);
+    const [produitCount, setProduitCount] = useState(0);
+    const [clientCount, setClientCount] = useState(0);
+    const [categorieCount, setCategorieCount] = useState(0);
     const [commande, setCommande] = useState([]);
-    
+
+    const fetchCountProducts = async () => {
+        try {
+          const data = await ProductsService.getProducts();
+          setProduitCount(data.length)
+        } catch (error) {
+          console.error('Erreur lors de la récupération du Product:', error);
+        }
+      };
+
+      const fetchCountCommandes = async () => {
+        try {
+          const data = await CommandeService.getCommandes();
+          setCommandeCount(data.length)
+        } catch (error) {
+          console.error('Erreur lors du  Comptage des Catégorie:', error);
+        }
+      };
+
+      const fetchCountCategories = async () => {
+        try {
+          const data = await CategoriesService.getCategories();
+          setCategorieCount(data.length)
+        } catch (error) {
+          console.error('Erreur lors du  Comptage des Catégorie:', error);
+        }
+      };
+
+      const fetchCountClients = async () => {
+        try {
+          const data = await ClientsService.getClients();
+          setClientCount(data.length)
+        } catch (error) {
+          console.error('Erreur lors du  Comptage des Catégorie:', error);
+        }
+      };
+
+
+      useEffect(()=>{
+        fetchCountProducts()
+        fetchCountCommandes()
+        fetchCountCategories()
+        fetchCountClients()
+      },[])
     return (
         <>
             <div className="mb-4">
@@ -57,7 +104,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="row d-flex justify-content-around mb-4  animated fadeInDown">
-                <div className="col-md-6 m-4">
+                <div className="col-md-12 m-4">
                     <table className="table table-striped">
         <thead>
           <tr>
@@ -85,12 +132,11 @@ export default function Dashboard() {
         </tbody>
       </table>
                 </div>
-                <div className="col-md-5">
+                {/* <div className="col-md-5">
                     <span className="h4 d-flex justify-content-center">
                         Figure Concernant ..............
                     </span>
-                    {/* <DocumentsChart /> */}
-                </div>
+                </div> */}
             </div>
         </>
     );

@@ -26,6 +26,16 @@ class ClientService {
     }
   }
 
+  async getClientByUserId(userId) {
+    try {
+      const response = await this.client.get(`${this.api}/itemset/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des clients:', error);
+      throw new Error('Erreur lors de la récupération des clients');
+    }
+  }
+
   async createClient(clientData) {
     try {
       const response = await this.client.post(this.api, clientData);
@@ -57,7 +67,7 @@ class ClientService {
   async deleteClient(clientId) {
     try {
       const response = await this.client.delete(`${this.api}/${clientId}`);
-      if (response.status === 200) {
+      if (response.status === 204) {
         return true;
       } else {
         throw new Error('Erreur lors de la suppression du client');

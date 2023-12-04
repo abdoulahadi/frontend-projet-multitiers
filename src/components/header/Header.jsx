@@ -1,29 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
 import './header.css';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
+import CategoriesService from "../../services/Categories.service";
+import AuthentificationService from "../../services/Authentification.service";
+import UsersService from "../../services/Users.service";
 
 const Header = () => {
-  const {token, setToken} = useStateContext()
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Nike"
-    },
-    {
-      id: 2,
-      name: "Adidas"
-    },
-    {
-      id: 3,
-      name: "autres catégories"
+  const {token, setToken, user, setUser} = useStateContext()
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const data = await CategoriesService.getCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du Product:', error);
     }
-  ]);
+  };
+
+  const fetchUser = async () => {
+    try {
+      const data = await UsersService.getAccount();
+      setUser(data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du Product:', error);
+    }
+  };
+
+  useEffect(()=>{
+    fetchCategories()
+    fetchUser()
+  },[])
 
   const handleLogout = () => {
-    // Déconnexion de l'utilisateur
     setToken(false);
+    return <Navigate to="/"/>
   };
 
   return (
@@ -45,7 +58,7 @@ const Header = () => {
                   </button>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/mon-espace">
+                  <Link className="nav-link" to={user.authorities ? (user.authorities[0] === "ROLE_ADMIN" ? "/admin" : "/user") : ""}>
                     Mon Espace
                   </Link>
                 </li>
@@ -70,8 +83,8 @@ const Header = () => {
             <ul className="nav flex-row menu-transparent">
               {categories.map((category) => (
                 <li className="nav-item" key={category.id}>
-                  <Link className="nav-link" to={`/categorie/${category.name}`}>
-                    {category.name}
+                  <Link className="nav-link" to={`/categorie/${category.id}`}>
+                    {category.nomCategorie}
                   </Link>
                 </li>
               ))}

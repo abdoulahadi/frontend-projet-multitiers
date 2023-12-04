@@ -2,7 +2,7 @@ import axiosClient from "../axios-client";
 
 class ProductsService {
   constructor() {
-    this.api = '/products';
+    this.api = '/produits';
     this.client = axiosClient;
   }
 
@@ -19,6 +19,16 @@ class ProductsService {
   async getProduct(productId) {
     try {
       const response = await this.client.get(`${this.api}/${productId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des produits:', error);
+      throw new Error('Erreur lors de la récupération des produits');
+    }
+  }
+
+  async getProductByCommande(commandeId) {
+    try {
+      const response = await this.client.get(`${this.api}/bycategorie/${commandeId}`);
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération des produits:', error);
@@ -57,7 +67,7 @@ class ProductsService {
   async deleteProduct(productId) {
     try {
       const response = await this.client.delete(`${this.api}/${productId}`);
-      if (response.status === 200) {
+      if (response.status === 204) {
         return true;
       } else {
         throw new Error('Erreur lors de la suppression du produit');
