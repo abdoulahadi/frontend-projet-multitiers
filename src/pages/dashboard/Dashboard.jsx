@@ -24,7 +24,6 @@ export default function Dashboard() {
       const fetchCommandes = async () => {
         try {
           const data = await CommandeService.getCommandeDetails();
-          console.log(data)
           setCommandes(data)
         } catch (error) {
           console.error('Erreur lors de la récupération du Product:', error);

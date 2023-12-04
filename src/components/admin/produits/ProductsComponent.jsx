@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductsService from '../../../services/Products.service';
+import CategoriesService from '../../../services/Categories.service';
 
 const ProductsComponent = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,17 @@ const ProductsComponent = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState('');
   const [imageFiles, setImageFiles] = useState([]);
+
+  const [categories, setCategories] = useState([]);
+
+const fetchCategories = async () => {
+  try {
+    const categoriesData = await CategoriesService.getCategories(); 
+    setCategories(categoriesData);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error);
+  }
+};
 
   const handleClose = () => {
     setShowModal(false);
@@ -46,6 +58,7 @@ const ProductsComponent = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories()
   }, []);
 
   const handleCreateProduct = async () => {
@@ -242,13 +255,20 @@ const ProductsComponent = () => {
                   )}
                   <div className="mb-3">
       <label htmlFor="categoryId" className="form-label">ID de la catégorie:</label>
-      <input
-        type="text"
-        className="form-control"
-        id="categoryId"
-        value={productData.categories===null ? productData.categories : productData.categories.id}
-        onChange={(e) => setProductData({ ...productData, categories: {id:e.target.value} })}
-      />
+      <div className="mb-3">
+  <label htmlFor="categoryId" className="form-label">Catégorie:</label>
+  <select
+    className="form-select"
+    id="categoryId"
+    value={productData.categories ? productData.categories.id : ''}
+    onChange={(e) => setProductData({ ...productData, categories: { id: e.target.value } })}
+  >
+    <option value="">Sélectionnez une catégorie</option>
+    {categories.map((category) => (
+      <option key={category.id} value={category.id}>{category.nomCategorie}</option>
+    ))}
+  </select>
+</div>
     </div>
                 </form>
               </div>

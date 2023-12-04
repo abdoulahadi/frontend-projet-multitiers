@@ -10,7 +10,7 @@ const ClientComponent = () => {
     adresse: '',
     telephone: '',
     email: '',
-    idUser: '',
+    user: {},
   });
   const [editMode, setEditMode] = useState(false);
   const [currentClientId, setCurrentClientId] = useState('');
@@ -23,7 +23,7 @@ const ClientComponent = () => {
       adresse: '',
       telephone: '',
       email: '',
-      idUser: '',
+      user: '',
     });
     setEditMode(false);
     setCurrentClientId('');
@@ -95,9 +95,9 @@ const ClientComponent = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nom</th>
+            {/* <th>Nom</th> */}
             <th>Prénom</th>
-            <th>Adresse</th>
+            {/* <th>Adresse</th> */}
             <th>Téléphone</th>
             <th>Email</th>
             <th>ID Utilisateur</th>
@@ -108,12 +108,12 @@ const ClientComponent = () => {
           {clients.map((client) => (
             <tr key={client.id}>
               <td>{client.id}</td>
-              <td>{client.nom}</td>
+              {/* <td>{client.nom}</td> */}
               <td>{client.prenom}</td>
-              <td>{client.adresse}</td>
+              {/* <td>{client.adresse}</td> */}
               <td>{client.telephone}</td>
               <td>{client.email}</td>
-              <td>{client.idUser}</td>
+              <td>{client.user!==null ? client.user.id :""}</td>
               <td>
                 <button
                   className="btn btn-sm btn-primary me-2"
@@ -151,8 +151,9 @@ const ClientComponent = () => {
                 type="text"
                 className="form-control"
                 id="clientId"
-                value={clientData.idUser}
-                onChange={(e) => setClientData({ ...clientData, idUser: e.target.value })}
+                value={clientData.user !==null ? clientData.user.id : ""}
+                disabled
+                onChange={(e) => setClientData({ ...clientData, user:{id: e.target.value} })}
               />
             </div>
             <div className="mb-3">
@@ -211,8 +212,9 @@ const ClientComponent = () => {
                 type="text"
                 className="form-control"
                 id="clientUserId"
-                value={clientData.idUser}
-                onChange={(e) => setClientData({ ...clientData, idUser: e.target.value })}
+                disabled
+                value={clientData.user!==null ? clientData.user.id : ""}
+                onChange={(e) => setClientData({ ...clientData, user:{id: e.target.value} })}
               />
             </div>
           </form>
