@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import logo from "../../assets/form_logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import AuthentificationService from "../../services/Authentification.service";
+import UsersService from "../../services/Users.service";
+import ClientsService from "../../services/Clients.service";
 
 export default function Signup() {
     const usernameRef = useRef();
@@ -15,36 +17,81 @@ export default function Signup() {
     const passwordConfirmationRef = useRef();
     const { setUser, setToken } = useStateContext();
     const [errors, setErrors] = useState(null);
+
+    const navigate = useNavigate()
     
     // const {setUser, setToken} = useStateContext();
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const fetchClient = async () => {
+        try {
+          const data = await UsersService.getAccount()
+          setUser(data);
+        } catch (error) {
+          console.error('Erreur lors de la récupération du Product:', error);
+        }
+      };
     
     const onSubmit = (ev) => {
         setIsLoading(true);
         ev.preventDefault();
-
-        const payload =
-        {
-            nom: usernameRef.current.value,
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-            password_confirmation: passwordConfirmationRef.current.value,
-        };
-
+    
         try {
-            AuthentificationService.register(payload)
-            .then(({data})=>{
-                //En fonction de ce qui va être renvoyer
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
-          } catch (error) {
+            const payload_account = {
+                lastName: lastNameRef.current.value,
+                firstName: firstNameRef.current.value,
+                login: usernameRef.current.value,
+                email: emailRef.current.value,
+                activated: true,
+                langkey: "fr",
+                authorities: ["ROLE_USER"],
+                password: passwordRef.current.value,
+            };
+    
+            UsersService.register(payload_account)
+                .then((data ) => {
+                    const payload_client = {
+                        nom: lastNameRef.current.value,
+                        prenom: firstNameRef.current.value,
+                        adresse: adresseRef.current.value,
+                        telephone: telRef.current.value,
+                        email: emailRef.current.value,
+                        user: data,
+                    };
+                    return ClientsService.createClient(payload_client); // Retourne la promesse pour la chaîner
+                })
+                .then((data ) => {
+                    if(data){
+                        const payload = {
+                            username: usernameRef.current.value,
+                            password: passwordRef.current.value,
+                            rememberMe:true
+                        };
+                        AuthentificationService.login(payload)
+                        .then(({data}) =>{
+                            setToken(data.id_token)
+                            fetchClient()
+                            if(localStorage.getItem("MEMO_URL")){
+                                navigate(localStorage.getItem("MEMO_URL"))
+                                localStorage.removeItem("MEMO_URL")
+                            }
+                        })
+                        .catch((error)=>{
+                            console.log(error)
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de l\'enregistrement du client:', error);
+                    // Gérer les erreurs ici
+                });
+        } catch (error) {
             console.error('Erreur lors de la récupération des clients:', error);
-          }
-        
+            // Gérer les erreurs ici
+        }
     };
+    
     return (
         <div className="login-signup-form animated fadeInDown">
             <div className="form  d-flex flex-column justify-content-center align-items-center">

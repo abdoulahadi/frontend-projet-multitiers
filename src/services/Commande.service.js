@@ -25,6 +25,27 @@ class CommandeService{
           throw new Error('Erreur lors de la récupération des commandes');
         }
       }
+
+      async getCommandeDetails() {
+        try {
+          const response = await this.commande.get(`${this.api}/details`);
+          return response.data;
+        } catch (error) {
+          console.error('Erreur lors de la récupération des commandes:', error);
+          throw new Error('Erreur lors de la récupération des commandes');
+        }
+      }
+
+      async getBestProductCommanded() {
+        try {
+          const response = await this.commande.get(`${this.api}/sortByProduit`);
+          return response.data;
+        } catch (error) {
+          console.error('Erreur lors de la récupération des commandes:', error);
+          throw new Error('Erreur lors de la récupération des commandes');
+        }
+      }
+
       async getCommandeByClient(clientId) {
         try {
           const response = await this.commande.get(`${this.api}/byclientId/${clientId}`);

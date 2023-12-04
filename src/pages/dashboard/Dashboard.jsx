@@ -1,21 +1,31 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import ProductsService from '../../services/Products.service';
-import CommandeService from '../../services/Commande.service';
 import CategoriesService from '../../services/Categories.service';
 import ClientsService from '../../services/Clients.service';
+import CommandeService from '../../services/Commande.service';
 
 export default function Dashboard() {
     const [commandeCount, setCommandeCount] = useState(0);
     const [produitCount, setProduitCount] = useState(0);
     const [clientCount, setClientCount] = useState(0);
     const [categorieCount, setCategorieCount] = useState(0);
-    const [commande, setCommande] = useState([]);
+    const [commandes, setCommandes] = useState([]);
 
     const fetchCountProducts = async () => {
         try {
           const data = await ProductsService.getProducts();
           setProduitCount(data.length)
+        } catch (error) {
+          console.error('Erreur lors de la récupération du Product:', error);
+        }
+      };
+
+      const fetchCommandes = async () => {
+        try {
+          const data = await CommandeService.getCommandeDetails();
+          console.log(data)
+          setCommandes(data)
         } catch (error) {
           console.error('Erreur lors de la récupération du Product:', error);
         }
@@ -47,6 +57,10 @@ export default function Dashboard() {
           console.error('Erreur lors du  Comptage des Catégorie:', error);
         }
       };
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('fr-FR', options);
+      };
 
 
       useEffect(()=>{
@@ -54,6 +68,7 @@ export default function Dashboard() {
         fetchCountCommandes()
         fetchCountCategories()
         fetchCountClients()
+        fetchCommandes()
       },[])
     return (
         <>
@@ -108,25 +123,23 @@ export default function Dashboard() {
                     <table className="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nom</th>
+            <th>Produit</th>
+            <th>Catégorie</th>
             <th>Prénom</th>
-            <th>Adresse</th>
+            <th>Nom</th>
             <th>Téléphone</th>
-            <th>Email</th>
-            <th>ID Utilisateur</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {commande.map((client) => (
-            <tr key={client.idClient}>
-              <td>{client.idClient}</td>
-              <td>{client.nom}</td>
-              <td>{client.prenom}</td>
-              <td>{client.adresse}</td>
-              <td>{client.telephone}</td>
-              <td>{client.email}</td>
-              <td>{client.idUser}</td>
+          {commandes.map((commande) => (
+            <tr key={commande.id}>
+              <td>{commande.produits.nomProduit}</td>
+              <td>{commande.id}</td>
+              <td>{commande.clients.prenom}</td>
+              <td>{commande.clients.nom}</td>
+              <td>{commande.clients.telephone}</td>
+              <td>{formatDate(commande.dateCommande)}</td>
             </tr>
           ))}
         </tbody>

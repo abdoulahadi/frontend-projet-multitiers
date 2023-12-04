@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import logo from "../../assets/form_logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthentificationService from "../../services/Authentification.service";
 import { useStateContext } from "../../contexts/ContextProvider";
 import UsersService from "../../services/Users.service";
 
 export default function Signin() {
     const usernameRef = useRef();
+    const navigate = useNavigate();
     const passwordRef = useRef();
     const { setUser, setToken } = useStateContext();
 
@@ -37,6 +38,10 @@ export default function Signin() {
             .then(({data}) =>{
                 setToken(data.id_token)
                 fetchClient()
+                if(localStorage.getItem("MEMO_URL")){
+                    navigate(localStorage.getItem("MEMO_URL"))
+                    localStorage.removeItem("MEMO_URL")
+                }
             })
             .catch((error)=>{
                 console.log(error)

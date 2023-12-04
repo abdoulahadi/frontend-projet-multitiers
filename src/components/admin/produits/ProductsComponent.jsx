@@ -247,7 +247,7 @@ const ProductsComponent = () => {
         className="form-control"
         id="categoryId"
         value={productData.categories===null ? productData.categories : productData.categories.id}
-        onChange={(e) => setProductData({ ...productData, categories: e.target.value })}
+        onChange={(e) => setProductData({ ...productData, categories: {id:e.target.value} })}
       />
     </div>
                 </form>

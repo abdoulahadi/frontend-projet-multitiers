@@ -2,14 +2,35 @@ import React, { useEffect, useState } from 'react';
 import ArticleItem from '../../components/articles/ArticleItem';
 import Parallax from '../../components/parallax/Parallax';
 import ProductsService from '../../services/Products.service';
+import CommandeService from '../../services/Commande.service';
 
 const Accueil = () => {
   const [products, setProducts] = useState([]);
+  const [bestProducts, setBestProducts] = useState([]);
+  const [recentProducts, setRecentProducts] = useState([]);
+
   const fetchProducts = async () => {
     try {
       const data = await ProductsService.getProducts();
-      console.log(data)
       setProducts(data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du Product:', error);
+    }
+  };
+
+  const fetchBestProducts = async () => {
+    try {
+      const data = await CommandeService.getBestProductCommanded();
+      setBestProducts(data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du Product:', error);
+    }
+  };
+
+  const RecentProducts = async () => {
+    try {
+      const data = await ProductsService.getRecentProduct();
+      setRecentProducts(data);
     } catch (error) {
       console.error('Erreur lors de la récupération du Product:', error);
     }
@@ -17,73 +38,10 @@ const Accueil = () => {
 
   useEffect(()=>{
     fetchProducts()
+    fetchBestProducts()
+    RecentProducts()
   },[])
-  // 'bestSellingItems' et 'recentItems' sont passés en tant que props
-  const bestSellingItems = [
-    {
-      id: 1,
-      name: "Fila Disruptor Low",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 109.90,
-    },
-    {
-      id: 2,
-      name: "Le Coq Sportif Nylon/Gum",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 119.90,
-    },
-    {
-      id: 3,
-      name: "New Balance WL574 CRD",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 104.90,
-    },
-    {
-      id: 4,
-      name: "Le Coq Sportif Noah Club OG",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 94.90,
-    },
-    {
-      id: 5,
-      name: "Reebok Club C 85 MU",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 99.90,
-    },
-  ];
 
-  const recentItems = [
-    {
-      id: 1,
-      name: "Fila Disruptor Low",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 109.90,
-    },
-    {
-      id: 2,
-      name: "Le Coq Sportif Nylon/Gum",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 119.90,
-    },
-    {
-      id: 3,
-      name: "New Balance WL574 CRD",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 104.90,
-    },
-    {
-      id: 4,
-      name: "Le Coq Sportif Noah Club OG",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 94.90,
-    },
-    {
-      id: 5,
-      name: "Reebok Club C 85 MU",
-      image: "https://cdn.pixabay.com/photo/2017/07/02/19/24/dumbbells-2465478_1280.jpg",
-      price: 99.90,
-    },
-  ];
   
   return (
     <>
@@ -95,21 +53,32 @@ const Accueil = () => {
           <section className="mb-5">
             <h2 className="mb-3">Les plus vendus</h2>
             <div className="row">
-              {products && products.length > 0 ? (
-                <ArticleItem items={products} horizontale={true}/>
+              {bestProducts && bestProducts.length > 0 ? (
+                <ArticleItem items={bestProducts} horizontale={true}/>
               ) : (
                 <p>Pas d'articles les plus vendus pour le moment</p>
               )}
             </div>
           </section>
+          <section className="mb-5">
+            <h2 className="mb-3">Tous les Produits</h2>
+            <div className="row">
+              {products && products.length > 0 ? (
+                <ArticleItem items={products} horizontale={true}/>
+              ) : (
+                <p>Pas d'articles </p>
+              )}
+            </div>
+          </section>
+          
         </div>
 
         {/* Section des articles récents */}
         <div className="col-md-4">
           <section className="bg-light">
             <h2 className="text-center mb-3">Articles récents</h2>
-            {products && products.length > 0 ? (
-              <ArticleItem items={products}  horizontale={false}/>
+            {recentProducts && recentProducts.length > 0 ? (
+              <ArticleItem items={recentProducts}  horizontale={false}/>
             ) : (
               <p>Pas d'articles récents pour le moment</p>
             )}

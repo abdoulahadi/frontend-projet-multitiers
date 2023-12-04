@@ -25,7 +25,15 @@ class ProductsService {
       throw new Error('Erreur lors de la récupération des produits');
     }
   }
-
+  async getRecentProduct() {
+    try {
+      const response = await this.client.get(`${this.api}/recent`);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des produits:', error);
+      throw new Error('Erreur lors de la récupération des produits');
+    }
+  }
   async getProductByCommande(commandeId) {
     try {
       const response = await this.client.get(`${this.api}/bycategorie/${commandeId}`);

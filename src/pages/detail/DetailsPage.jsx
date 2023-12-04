@@ -45,8 +45,8 @@ const DetailsPage = () => {
 
   const handleAddToCart = () => {
     if (!token) {
-      // history.push('/connexion');
-      alert('Veuillez vous connecter pour ajouter l\'article au panier.');
+      navigate("/login")
+      localStorage.setItem("MEMO_URL",location.pathname)
     } else {
       const dateActuelle = new Date();
       const dateISO = dateActuelle.toISOString();
@@ -63,8 +63,6 @@ const DetailsPage = () => {
       .catch((error)=>{
         console.log(error)
       })
-
-      alert('Article ajouté à la table d\'achat !');
     }
   };
 
