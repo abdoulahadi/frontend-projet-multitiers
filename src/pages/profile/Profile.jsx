@@ -14,7 +14,6 @@ const ClientProfile = () => {
   const fetchCommandeByClient = async () => {
     try {
       const data = await CommandeService.getCommandeByClient(client.id)
-      console.log(data)
       setCommandes(data);
     } catch (error) {
       console.error('Erreur lors de la récupération des commandes:', error);
@@ -34,11 +33,6 @@ const ClientProfile = () => {
     fetchClientByUserId()
     fetchCommandeByClient()
   },[client.id])
-  const clientOrders = [
-    { id: 1, date: '2023-11-15', totalAmount: 150 },
-    { id: 2, date: '2023-11-18', totalAmount: 200 },
-    // Ajoutez d'autres détails des commandes ici
-  ];
 
   return (
     <>

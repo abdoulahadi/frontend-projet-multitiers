@@ -5,6 +5,7 @@ import CategoriesService from '../../../services/Categories.service';
 const ProductsComponent = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [affiche, setAffiche] = useState(false)
   const [productData, setProductData] = useState({
     nomProduit: '',
     descriptionProduit: '',

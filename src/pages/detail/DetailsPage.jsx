@@ -56,6 +56,7 @@ const DetailsPage = () => {
         produits: product,
         clients:client
       }
+      console.log(payload)
       CommandeService.createCommande(payload)
       .then((data)=>{
           navigate("/")

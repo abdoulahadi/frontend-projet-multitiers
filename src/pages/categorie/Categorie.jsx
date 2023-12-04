@@ -3,11 +3,13 @@ import ArticleItem from "../../components/articles/ArticleItem";
 import Parallax from "../../components/parallax/Parallax";
 import ProductsService from "../../services/Products.service";
 import { useLocation } from "react-router-dom";
+import CategoriesService from "../../services/Categories.service";
 
 
 const Categorie = () => {
   const location = useLocation();
   const [productByCommande, setProductByCommande] = useState([]);
+  const [categories, setCategories] = useState([]);
   const categorie = location.pathname.split("/")[location.pathname.split("/").length -1]
 
   const fetchProductByCategorie = async () => {
@@ -20,8 +22,19 @@ const Categorie = () => {
     }
   };
 
+  const fetchCategorie = async () => {
+    try {
+      //On passe la categorie....
+      const data = await CategoriesService.getCategorie(categorie);
+      setCategories(data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des catégories:', error);
+    }
+  };
+
   useEffect(()=>{
     fetchProductByCategorie()
+    fetchCategorie()
   },[categorie])
 
     const categoryItems = [
@@ -58,7 +71,7 @@ const Categorie = () => {
   ];
   return (
     <>
-    <Parallax title={categorie}/>
+    <Parallax title={categories.nomCategorie}/>
     <div className="container mt-4">
         <ArticleItem items={productByCommande} horizontale={true} />
     </div>
